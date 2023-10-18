@@ -18,7 +18,6 @@
   "author": "Agoric",
   "license": "Apache-2.0",
   "dependencies": {
-    "@endo/errors": "^1.2.5",
     "@agoric/builders": "^0.1.0",
     "@agoric/cosmic-proto": "^0.4.0",
     "@agoric/cosmic-swingset": "^0.41.3",
@@ -40,6 +39,7 @@
     "@agoric/zone": "^0.2.2",
     "@endo/bundle-source": "^3.4.0",
     "@endo/captp": "^4.3.0",
+    "@endo/errors": "^1.2.5",
     "@endo/eventual-send": "^1.2.5",
     "@endo/far": "^1.1.5",
     "@endo/init": "^1.1.4",
