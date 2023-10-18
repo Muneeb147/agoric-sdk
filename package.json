@@ -57,8 +57,8 @@
     "lint:packages": "yarn lerna run --no-bail lint",
     "test": "yarn lerna run --no-bail test",
     "test:c8-all": "rm -rf coverage/tmp && C8_OPTIONS=\"--clean=false --temp-directory=$PWD/coverage/tmp\" lerna run test:c8",
-    "test:xs": "yarn workspaces run test:xs",
-    "build": "yarn workspaces run build && scripts/agd-builder.sh stamp yarn-built",
+    "test:xs": "yarn workspaces foreach --all run test:xs",
+    "build": "yarn workspaces foreach --all run build && scripts/agd-builder.sh stamp yarn-built",
     "postinstall": "patch-package && scripts/agd-builder.sh stamp yarn-installed",
     "build-ts": "tsc --build tsconfig.build.json",
     "build-xs-worker": "cd packages/xs-vat-worker && yarn build:xs-lin"
