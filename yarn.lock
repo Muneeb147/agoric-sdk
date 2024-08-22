@@ -131,6 +131,7 @@ __metadata:
     "@endo/patterns": "npm:^1.4.3"
     "@endo/promise-kit": "npm:^1.1.5"
     "@endo/stream": "npm:^1.2.5"
+    agoric: "npm:^0.21.1"
     ava: "npm:^5.3.0"
     c8: "npm:^9.1.0"
     import-meta-resolve: "npm:^2.2.1"
