@@ -606,6 +606,7 @@ __metadata:
     "@jessie.js/eslint-plugin": "npm:^0.4.1"
     "@types/express": "npm:^4.17.17"
     "@types/node": "npm:^18.19.24"
+    agoric: "npm:^0.21.1"
     ava: "npm:^5.3.0"
     c8: "npm:^9.1.0"
     conventional-changelog-conventionalcommits: "npm:^4.6.0"
