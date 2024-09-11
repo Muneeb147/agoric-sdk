@@ -3,7 +3,7 @@ import {
   InvitationShape,
 } from '@agoric/zoe/src/typeGuards.js';
 import { makeTracer } from '@agoric/internal';
-import { M, mustMatch } from '@endo/patterns';
+import { M } from '@endo/patterns';
 import { prepareChainHubAdmin } from '../exos/chain-hub-admin.js';
 import { preparePortfolioHolder } from '../exos/portfolio-holder-kit.js';
 import { withOrchestration } from '../utils/start-helper.js';
@@ -18,7 +18,6 @@ const trace = makeTracer('AutoStakeIt');
  * @import {IBCChannelID, VTransferIBCEvent} from '@agoric/vats';
  * @import {TargetApp} from '@agoric/vats/src/bridge-target.js';
  * @import {ChainAddress, CosmosValidatorAddress, Denom} from '@agoric/orchestration';
- * @import {TypedPattern} from '@agoric/internal';
  * @import {CosmosOrchestrationAccount} from '../exos/cosmos-orchestration-account.js';
  * @import {LocalOrchestrationAccount} from '../exos/local-orchestration-account.js';
  * @import {OrchestrationPowers, OrchestrationTools} from '../utils/start-helper.js';
@@ -39,7 +38,6 @@ const trace = makeTracer('AutoStakeIt');
  * }} StakingTapState
  */
 
-/** @type {TypedPattern<StakingTapState>} */
 const StakingTapStateShape = harden({
   stakingAccount: M.remotable('CosmosOrchestrationAccount'),
   localAccount: M.remotable('LocalOrchestrationAccount'),
@@ -86,10 +84,7 @@ const contract = async (
       receiveUpcall: M.call(M.record()).returns(M.undefined()),
     }),
     /** @param {StakingTapState} initialState */
-    initialState => {
-      mustMatch(initialState, StakingTapStateShape); // TODO use opts.stateShape
-      return harden(initialState);
-    },
+    initialState => harden(initialState),
     {
       /**
        * Transfers from localAccount to stakingAccount, then delegates from the
@@ -104,6 +99,9 @@ const contract = async (
         // eslint-disable-next-line no-use-before-define -- defined by orchestrateAll, necessarily after this
         orchFns.autoStake(localAccount, stakingAccount, config, event);
       },
+    },
+    {
+      stateShape: StakingTapStateShape,
     },
   );
 
