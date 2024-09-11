@@ -664,3 +664,4 @@ export const prepareLocalOrchestrationAccountKit = (
 
 /** @typedef {ReturnType<typeof prepareLocalOrchestrationAccountKit>} MakeLocalOrchestrationAccountKit */
 /** @typedef {ReturnType<MakeLocalOrchestrationAccountKit>} LocalOrchestrationAccountKit */
+/** @typedef {LocalOrchestrationAccountKit['holder']} LocalOrchestrationAccount */
