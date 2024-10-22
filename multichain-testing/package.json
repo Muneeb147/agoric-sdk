@@ -4,9 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "exit 0",
-    "lint": "yarn lint:types && yarn lint:eslint",
-    "lint:eslint": "eslint .",
-    "lint:types": "tsc --noEmit",
+    "lint": "yarn tsc && yarn eslint .",
     "lint-fix": "yarn lint:eslint --fix",
     "test": "ava",
     "starship:setup": "make setup-deps setup-kind",
