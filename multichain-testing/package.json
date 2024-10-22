@@ -39,7 +39,7 @@
     "starshipjs": "2.4.1",
     "tsimp": "^2.0.10",
     "tsx": "^4.15.6",
-    "typescript": "^5.3.3"
+    "typescript": "~5.6.2"
   },
   "resolutions": {
     "axios": "1.6.7"
