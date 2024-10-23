@@ -5,12 +5,13 @@
  */
 const compareNats = (a, b) => {
   // Default to IEEE 754 number arithmetic for speed, but fall back on bigint
-  // arithmetic to resolve ties because big numbers can lose resolution,
-  // sometimes even becoming infinite.
+  // arithmetic to resolve ties because big numbers can lose resolution
+  // (sometimes even becoming infinite) and then ultimately on length to resolve
+  // ties by ascending count of leading zeros.
   const diff = +a - +b;
   const finiteDiff =
     (Number.isFinite(diff) && diff) ||
-    (a === b ? 0 : Number(BigInt(a) - BigInt(b)));
+    (a === b ? 0 : Number(BigInt(a) - BigInt(b)) || a.length - b.length);
 
   // @ts-expect-error this call really does return -1 | 0 | 1
   return Math.sign(finiteDiff);
