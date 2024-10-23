@@ -41,8 +41,8 @@ runs:
         persist-credentials: false
         path: ${{ inputs.path }}
 
-    # Select an endo against which to test, defaulting to 'NOPE' for use of
-    # internally-referenced NPM packages but allowing overrides in the pull
+    # Select an Endo target against which to test, defaulting to 'NOPE' for use
+    # of internally-referenced NPM packages but allowing overrides in the pull
     # request description for referencing a branch of the
     # [endo repository](https://github.com/endojs/endo) using lines like
     # `#endo-branch: rank-strings-by-codepoint`
@@ -65,7 +65,7 @@ runs:
               branch = result[1];
             }
           }
-          console.log('endo override branch: ' + branch);
+          console.log('Endo override branch: ' + branch);
           return branch;
 
     - name: merge endo integration branch
