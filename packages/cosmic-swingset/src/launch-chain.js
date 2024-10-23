@@ -21,6 +21,7 @@ import {
   makeSwingsetController,
   loadBasedir,
   loadSwingsetConfigFile,
+  normalizeConfig,
   upgradeSwingset,
 } from '@agoric/swingset-vat';
 import { waitUntilQuiescent } from '@agoric/internal/src/lib-nodejs/waitUntilQuiescent.js';
@@ -118,7 +119,7 @@ const getHostKey = path => `host.${path}`;
  * @param {KVStore<Mailbox>} mailboxStorage
  * @param {((destPort: string, msg: unknown) => unknown)} bridgeOutbound
  * @param {SwingStoreKernelStorage} kernelStorage
- * @param {string | (() => string | Promise<string>)} vatconfig absolute path or thunk
+ * @param {import('@endo/far').ERef<string | SwingSetConfig>} configP
  * @param {unknown} bootstrapArgs JSON-serializable data
  * @param {{}} env
  * @param {*} options
@@ -127,7 +128,7 @@ export async function buildSwingset(
   mailboxStorage,
   bridgeOutbound,
   kernelStorage,
-  vatconfig,
+  configP,
   bootstrapArgs,
   env,
   {
@@ -159,13 +160,17 @@ export async function buildSwingset(
       return;
     }
 
-    const configLocation = await (typeof vatconfig === 'function'
-      ? vatconfig()
-      : vatconfig);
-    let config = await loadSwingsetConfigFile(configLocation);
-    if (config === null) {
-      config = loadBasedir(configLocation);
-    }
+    const { config, configLocation } = await (async () => {
+      const objOrPath = await configP;
+      if (typeof objOrPath === 'string') {
+        const path = objOrPath;
+        const configFromFile = await loadSwingsetConfigFile(path);
+        const obj = configFromFile || loadBasedir(path);
+        return { config: obj, configLocation: path };
+      }
+      await normalizeConfig(objOrPath);
+      return { config: objOrPath, configLocation: undefined };
+    })();
 
     config.devices = {
       mailbox: {
@@ -388,8 +393,10 @@ function computronCounter(
  * @property {() => void} replayChainSends
  * @property {((destPort: string, msg: unknown) => unknown)} bridgeOutbound
  * @property {() => ({publish: (value: unknown) => Promise<void>})} [makeInstallationPublisher]
- * @property {string | (() => string | Promise<string>)} vatconfig
- * @property {unknown} argv for the bootstrap vat
+ * @property {import('@endo/far').ERef<string | SwingSetConfig>} vatconfig
+ *   may be normalized and/or extended if it is an object
+ * @property {unknown} argv for the bootstrap vat (and despite the name, usually
+ *   an object rather than an array)
  * @property {typeof process['env']} [env]
  * @property {string} [debugName]
  * @property {boolean} [verboseBlocks]
