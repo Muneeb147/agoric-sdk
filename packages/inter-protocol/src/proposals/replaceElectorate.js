@@ -386,9 +386,9 @@ const addGovernorsToEconCharter = async (
  * Replaces the electorate for governance contracts by creating a new Economic
  * Committee and updating contracts with the new electorate's creator facet.
  *
- * @param {EconomyBootstrapPowers} permittedPowers - The resources and
- *   capabilities needed for operations, including access to governance
- *   contracts and the PSM kit.
+ * @param {EconomyBootstrapPowers & interlockPowers} permittedPowers - The
+ *   resources and capabilities needed for operations, including access to
+ *   governance contracts and the PSM kit.
  * @param {{
  *   options: {
  *     committeeName: string;
