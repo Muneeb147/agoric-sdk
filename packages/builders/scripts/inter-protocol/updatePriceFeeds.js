@@ -1,5 +1,3 @@
-/* global process */
-
 import { makeHelpers } from '@agoric/deploy-script-support';
 import { getManifestForPriceFeeds } from '@agoric/inter-protocol/src/proposals/deploy-price-feeds.js';
 
