@@ -22,6 +22,7 @@
   "dependencies": {
     "@endo/errors": "^1.2.6",
     "@agoric/base-zone": "^0.1.0",
+    "@agoric/cosmic-proto": "^0.4.0",
     "@endo/common": "^1.2.6",
     "@endo/far": "^1.1.6",
     "@endo/init": "^1.1.5",
