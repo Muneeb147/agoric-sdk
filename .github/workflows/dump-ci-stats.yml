@@ -1,0 +1,29 @@
+name: Dum GH CI Stats
+
+on:
+  workflow_run:  # This allows the workflow to be reused
+    workflows: ['Integration Tests', 'Test Golang', 'golangci-lint', 'Build release Docker Images', 'Test all Packages', 'Test Documentation']
+    types:
+      - completed
+
+jobs:
+  final_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install GCP Monitoring/Metrics Client
+        run: npm install @google-cloud/monitoring
+
+      - name: Run Final Job and Send Logs to GCP
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+        run: |
+          node source/dump-ci-stats-to-gcp-metrics.js ${{ github.event.workflow_run.id }}
