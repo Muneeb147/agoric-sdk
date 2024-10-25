@@ -26,12 +26,22 @@ To make the resulting state changes occur at a predictable time, upgrades do not
 
 It is safe to call `upgradeSwingset` on reboots that do not change the version of the kernel code: the function is idempotent, and will do nothing if the swingstore is already up-to-date.
 
+Some upgrades (in particular bug remediations) need to inject events into the kernel's run-queue. To avoid having these events be intermingled with work that might already be on the run-queue at reboot time (e.g. work leftover from previous reboots), these events are not automatically injected at that time. Instead, they are returned to the caller, who is responsible for submitting them to the kernel promptly (before the next `commit()`, so they are not lost by a reboot). The controller has a method named `injectEvents()` for this purpose.
+
 So most host applications will start each reboot with a sequence like this:
 
 ```js
 const { hostStorage, kernelStorage } = openSwingStore(baseDirectory);
-upgradeSwingset(kernelStorage);
-const c = makeSwingsetController(kernelStorage, deviceEndowments);
+const upgradeEvents = upgradeSwingset(kernelStorage);
+const controller = makeSwingsetController(kernelStorage, deviceEndowments);
+controller.injectEvents(upgradeEvents);
+
+// then later, the block execution loop looks like:
+async function doBlock(deviceInputs) {
+  device.doInput(deviceInputs);
+  await controller.run();
+  device.emitOutputs();
+}
 ```
 
 ### Crank Execution
