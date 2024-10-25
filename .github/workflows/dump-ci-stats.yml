@@ -19,7 +19,7 @@ jobs:
           node-version: '18'
 
       - name: Install GCP Monitoring/Metrics Client
-        run: npm install @google-cloud/monitoring
+        run: npm install @google-cloud/monitoring --legacy-peer-deps
 
       - name: Run Final Job and Send Logs to GCP
         env:
