@@ -26,4 +26,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
         run: |
-          node source/dump-ci-stats-to-gcp-metrics.js ${{ github.event.workflow_run.id }}
+          node .github/actions/dump-ci-stats-to-gcp-metrics.js ${{ github.event.workflow_run.id }}
