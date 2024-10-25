@@ -215,6 +215,21 @@ export default function buildKernel(
     return deviceID;
   }
 
+  function injectEvents(events) {
+    // refcounts: Any krefs in `events` must have a refcount to
+    // represent the list's hold on those objects. Code which creates
+    // `events` must incref(kref) first, otherwise we run the risk of
+    // dropping the kref by the time injectEvents() is called. We're
+    // nominally removing each event from `events` (decref), then
+    // pushing it onto the run-queue (incref), but since those two
+    // cancel each other out, we don't actually need to modify any
+    // reference counts from within this function
+    for (const e of events) {
+      assert(e.type, `not an event`);
+      kernelKeeper.addToAcceptanceQueue(e);
+    }
+  }
+
   function addImport(forVatID, what) {
     if (!started) {
       throw Error('must do kernel.start() before addImport()');
@@ -2207,6 +2222,7 @@ export default function buildKernel(
     pinObject,
     vatNameToID,
     deviceNameToID,
+    injectEvents,
     queueToKref,
     kpRegisterInterest,
     kpStatus,
