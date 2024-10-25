@@ -1,4 +1,4 @@
-name: Dum GH CI Stats
+name: Dump GH CI Stats
 
 on:
   workflow_run:  # This allows the workflow to be reused
