@@ -19,11 +19,11 @@ jobs:
           node-version: '18'
   
       - name: Install GCP Monitoring/Metrics Client
-        run: npm install @google-cloud/monitoring --legacy-peer-deps
+        run: npm install @google-cloud/monitoring
 
       - name: Run Final Job and Send Logs to GCP
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GCP_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
         run: |
-          node .github/actions/dump-ci-stats-to-gcp-metrics.cjs ${{ github.event.workflow_run.id }}
+          node .github/actions/dump-ci-sstats-to-gcp-metrics.cjs ${{ github.event.workflow_run.id }}
