@@ -17,9 +17,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      
-      - name: Clear npm cache
-        run: npm cache clean --force
   
       - name: Install GCP Monitoring/Metrics Client
         run: npm install @google-cloud/monitoring --legacy-peer-deps
