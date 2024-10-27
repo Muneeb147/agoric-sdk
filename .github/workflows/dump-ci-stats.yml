@@ -19,7 +19,7 @@ jobs:
           node-version: '18'
   
       - name: Install GCP Monitoring/Metrics Client
-        run: npm install @google-cloud/monitoring
+        run: cd .github/actions && npm install @google-cloud/monitoring
 
       - name: Run Final Job and Send Logs to GCP
         env:
