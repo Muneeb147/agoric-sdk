@@ -19,7 +19,7 @@ jobs:
           node-version: '18'
   
       - name: Install GCP Monitoring/Metrics Client
-        run: yarn add @google-cloud/monitoring
+        run: yarn add @google-cloud/monitoring --ignore-workspace-root-check
 
       - name: Run Final Job and Send Logs to GCP
         env:
